@@ -47,7 +47,7 @@ export default function LandingPage() {
     }
 
     const conversationId = await conversation.startSession({
-      agentId: "agent_01jwgkr5pbe6msff8n040gvge6",
+      agentId: process.env.NEXT_PUBLIC_ELEVENLAB_AGENT_ID || "",
     });
 
     if (conversationId) {
@@ -419,8 +419,9 @@ export default function LandingPage() {
                 </button>
 
                 {showTooltip && (
-                  <div className="w-48 absolute bottom-full mb-2 left-1/2 -translate-x-1/2 bg-gray-100 text-black text-xs rounded-md px-3 py-1 shadow-lg z-10">
-                    If WhatsApp isn't available, contact us at 919728000432
+                  <div className="w-52 absolute bottom-full mb-2 left-1/2 -translate-x-1/2 bg-gray-100 text-black text-xs rounded-md px-3 py-1 shadow-lg z-10">
+                    <p className="font-semibold"> Jarvis AI is available on WhatsApp at +9197280 00432. </p>
+                    If the button below doesn't work, just drop us a message directly on WhatsApp at this number.
                   </div>
                 )}
               </div>
