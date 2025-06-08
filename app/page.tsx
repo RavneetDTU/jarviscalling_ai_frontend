@@ -1,22 +1,61 @@
 "use client";
 
 import { useModalStore } from "@/lib/store";
+import { useRouter } from "next/navigation";
 import EnhancedVoiceAnimation from "@/components/enhanced-voice-animation";
 import AnimatedBackground from "@/components/animated-background";
 import EarlyAccessModal from "@/components/early-access-modal";
 import BookSetupModal from "@/components/book-setup-modal";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import VoiceCallAnimationCircle from "@/components/voice-animation-circle";
 import { ComparisonTable } from "@/components/comparision-table";
 import CustomerReview from "@/components/customer-review";
+
+import { useConversation } from "@elevenlabs/react";
 
 export default function LandingPage() {
   const { openEarlyAccess, openBookSetup } = useModalStore();
 
   const [isCallActive, setIsCallActive] = useState(false);
+  const [hasPermission, setHasPermission] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
+  const [showTooltip, setShowTooltip] = useState(false);
 
-  const handleToggleCall = () => {
-    setIsCallActive((prev) => !prev);
+  const conversation = useConversation();
+  const router = useRouter();
+
+  const handleNavigationToWhatsApp = () => {
+    router.push("https://wa.me/919728000432?text=Hi%2C%20I%20want%20to%20book%20a%20table");
+  };
+
+  const handleStartConversation = async () => {
+    if (isCallActive) {
+      await conversation.endSession();
+      setIsCallActive(false);
+      setErrorMsg("");
+      return;
+    }
+
+    // Request microphone permission before starting the call
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      setHasPermission(true);
+    } catch (error) {
+      setErrorMsg((error as Error).message);
+      console.error("Microphone permission denied:", error);
+      return;
+    }
+
+    const conversationId = await conversation.startSession({
+      agentId: "agent_01jwgkr5pbe6msff8n040gvge6",
+    });
+
+    if (conversationId) {
+      setIsCallActive(true);
+      setErrorMsg("");
+    } else {
+      setErrorMsg("Failed to start conversation. Please try again.");
+    }
   };
 
   const features = [
@@ -196,7 +235,6 @@ export default function LandingPage() {
     },
   ];
 
-
   return (
     <div className="min-h-screen bg-snow relative overflow-hidden">
       <AnimatedBackground />
@@ -244,24 +282,6 @@ export default function LandingPage() {
 
             {/* Enhanced CTAs */}
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
-              {/* <button className="group bg-gradient-to-r from-indigo-600 to-indigo-500 text-white px-6 py-3 sm:px-8 sm:py-4 rounded-xl font-medium hover:from-indigo-700 hover:to-indigo-600 transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-2xl shadow-indigo-600/25 flex items-center justify-center">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="w-4 h-4 sm:w-5 sm:h-5 mr-2 group-hover:animate-pulse"
-                >
-                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
-                </svg>
-                Try Demo Call
-              </button> */}
-
               <button
                 onClick={openEarlyAccess}
                 className="group border-2 border-indigo-600 text-indigo-600 px-6 py-3 sm:px-8 sm:py-4 rounded-xl font-medium hover:bg-indigo-600 hover:text-white transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center justify-center"
@@ -346,33 +366,65 @@ export default function LandingPage() {
 
           {/* Right Side - Enhanced Animation */}
           <div className="h-full flex flex-col items-center justify-center gap-14 animate-slide-in-right order-1 lg:order-2">
-            {/* Conditional rendering based on state */}
             {isCallActive ? (
               <VoiceCallAnimationCircle />
             ) : (
               <EnhancedVoiceAnimation />
             )}
 
-            <button
-              onClick={handleToggleCall}
-              className="w-52 group bg-gradient-to-r from-indigo-600 to-indigo-500 text-white px-6 py-3 sm:px-8 sm:py-4 rounded-xl font-medium hover:from-indigo-700 hover:to-indigo-600 transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-2xl shadow-indigo-600/25 flex items-center justify-center"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="w-4 h-4 sm:w-5 sm:h-5 mr-2 group-hover:animate-pulse"
+            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
+              <button
+                onClick={handleStartConversation}
+                className="w-52 group bg-gradient-to-r from-indigo-600 to-indigo-500 text-white px-6 py-3 sm:px-8 sm:py-4 rounded-xl font-medium hover:from-indigo-700 hover:to-indigo-600 transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-2xl shadow-indigo-600/25 flex items-center justify-center"
               >
-                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
-              </svg>
-              {isCallActive ? "End Call" : "Try Demo Call"}
-            </button>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="w-4 h-4 sm:w-5 sm:h-5 mr-2 group-hover:animate-pulse"
+                >
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+                </svg>
+                {isCallActive ? "End Call" : "Try Demo Call"}
+              </button>
+
+              <div className="relative">
+                <button
+                  onClick={handleNavigationToWhatsApp}
+                  onMouseEnter={() => setShowTooltip(true)}
+                  onMouseLeave={() => setShowTooltip(false)}
+                  className="w-52 group bg-gradient-to-r from-indigo-600 to-indigo-500 text-white px-6 py-3 sm:px-8 sm:py-4 rounded-xl font-medium hover:from-indigo-700 hover:to-indigo-600 transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-2xl shadow-indigo-600/25 flex items-center justify-center"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="w-4 h-4 sm:w-5 sm:h-5 mr-2 group-hover:animate-pulse"
+                  >
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+                  </svg>
+                  Chat on WhatsApp
+                </button>
+
+                {showTooltip && (
+                  <div className="w-48 absolute bottom-full mb-2 left-1/2 -translate-x-1/2 bg-gray-100 text-black text-xs rounded-md px-3 py-1 shadow-lg z-10">
+                    If WhatsApp isn't available, contact us at 919728000432
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -493,7 +545,7 @@ export default function LandingPage() {
               Hear from restaurant owners who transformed their business
             </p>
           </div>
-            <CustomerReview/> 
+          <CustomerReview />
         </div>
       </section>
 
