@@ -1,13 +1,23 @@
-"use client"
+"use client";
 
-import { useModalStore } from "@/lib/store"
-import EnhancedVoiceAnimation from "@/components/enhanced-voice-animation"
-import AnimatedBackground from "@/components/animated-background"
-import EarlyAccessModal from "@/components/early-access-modal"
-import BookSetupModal from "@/components/book-setup-modal"
+import { useModalStore } from "@/lib/store";
+import EnhancedVoiceAnimation from "@/components/enhanced-voice-animation";
+import AnimatedBackground from "@/components/animated-background";
+import EarlyAccessModal from "@/components/early-access-modal";
+import BookSetupModal from "@/components/book-setup-modal";
+import { useState } from "react";
+import VoiceCallAnimationCircle from "@/components/voice-animation-circle";
+import { ComparisonTable } from "@/components/comparision-table";
+import CustomerReview from "@/components/customer-review";
 
 export default function LandingPage() {
-  const { openEarlyAccess, openBookSetup } = useModalStore()
+  const { openEarlyAccess, openBookSetup } = useModalStore();
+
+  const [isCallActive, setIsCallActive] = useState(false);
+
+  const handleToggleCall = () => {
+    setIsCallActive((prev) => !prev);
+  };
 
   const features = [
     {
@@ -49,7 +59,8 @@ export default function LandingPage() {
         </svg>
       ),
       title: "WhatsApp Integration",
-      description: "Handle bookings and queries on your customers' favorite platform",
+      description:
+        "Handle bookings and queries on your customers' favorite platform",
       gradient: "from-emerald-500/10 to-emerald-400/10",
     },
     {
@@ -98,95 +109,7 @@ export default function LandingPage() {
       description: "Personalized service that makes customers feel valued",
       gradient: "from-emerald-500/10 to-indigo-600/10",
     },
-  ]
-
-  const comparisons = [
-    {
-      traditional: "Miss calls during busy hours",
-      jarvis: "Answer every call instantly",
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="w-5 h-5"
-        >
-          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
-        </svg>
-      ),
-    },
-    {
-      traditional: "Manual booking management",
-      jarvis: "Automated reservation system",
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="w-5 h-5"
-        >
-          <circle cx="12" cy="12" r="10" />
-          <polyline points="12 6 12 12 16 14" />
-        </svg>
-      ),
-    },
-    {
-      traditional: "Limited to business hours",
-      jarvis: "24/7 availability",
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="w-5 h-5"
-        >
-          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-          <circle cx="9" cy="7" r="4" />
-          <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-          <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-        </svg>
-      ),
-    },
-    {
-      traditional: "Human errors in bookings",
-      jarvis: "Perfect accuracy every time",
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="w-5 h-5"
-        >
-          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-          <polyline points="22 4 12 14.01 9 11.01" />
-        </svg>
-      ),
-    },
-  ]
+  ];
 
   const stats = [
     {
@@ -271,31 +194,8 @@ export default function LandingPage() {
         </svg>
       ),
     },
-  ]
+  ];
 
-  const reviews = [
-    {
-      name: "Maria Rodriguez",
-      city: "Miami, FL",
-      rating: 5,
-      quote: "Jarvis AI transformed our restaurant. We never miss reservations anymore!",
-      avatar: "MR",
-    },
-    {
-      name: "David Chen",
-      city: "San Francisco, CA",
-      rating: 5,
-      quote: "Our booking efficiency increased by 300%. Best investment we've made.",
-      avatar: "DC",
-    },
-    {
-      name: "Sarah Johnson",
-      city: "New York, NY",
-      rating: 5,
-      quote: "Customers love how quickly they get responses. It's like magic!",
-      avatar: "SJ",
-    },
-  ]
 
   return (
     <div className="min-h-screen bg-snow relative overflow-hidden">
@@ -322,7 +222,9 @@ export default function LandingPage() {
                 >
                   <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
                 </svg>
-                <span className="text-xs sm:text-sm font-medium text-graphite">AI-Powered Restaurant Assistant</span>
+                <span className="text-xs sm:text-sm font-medium text-graphite">
+                  AI-Powered Restaurant Assistant
+                </span>
               </div>
 
               <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-semibold text-graphite leading-tight">
@@ -334,14 +236,15 @@ export default function LandingPage() {
               </h1>
 
               <p className="text-base sm:text-lg lg:text-xl text-graphite/70 leading-relaxed max-w-2xl">
-                AI-powered phone and WhatsApp agents that take bookings, send reminders, and delight your customers with
-                instant, personalized service.
+                AI-powered phone and WhatsApp agents that take bookings, send
+                reminders, and delight your customers with instant, personalized
+                service.
               </p>
             </div>
 
             {/* Enhanced CTAs */}
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
-              <button className="group bg-gradient-to-r from-indigo-600 to-indigo-500 text-white px-6 py-3 sm:px-8 sm:py-4 rounded-xl font-medium hover:from-indigo-700 hover:to-indigo-600 transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-2xl shadow-indigo-600/25 flex items-center justify-center">
+              {/* <button className="group bg-gradient-to-r from-indigo-600 to-indigo-500 text-white px-6 py-3 sm:px-8 sm:py-4 rounded-xl font-medium hover:from-indigo-700 hover:to-indigo-600 transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-2xl shadow-indigo-600/25 flex items-center justify-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -357,7 +260,7 @@ export default function LandingPage() {
                   <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
                 </svg>
                 Try Demo Call
-              </button>
+              </button> */}
 
               <button
                 onClick={openEarlyAccess}
@@ -416,7 +319,9 @@ export default function LandingPage() {
                     </div>
                   ))}
                 </div>
-                <span className="text-xs sm:text-sm text-graphite/60">500+ restaurants trust us</span>
+                <span className="text-xs sm:text-sm text-graphite/60">
+                  500+ restaurants trust us
+                </span>
               </div>
               <div className="flex items-center space-x-1">
                 {[...Array(5)].map((_, i) => (
@@ -432,14 +337,42 @@ export default function LandingPage() {
                     <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
                   </svg>
                 ))}
-                <span className="text-xs sm:text-sm text-graphite/60 ml-1">4.9/5 rating</span>
+                <span className="text-xs sm:text-sm text-graphite/60 ml-1">
+                  4.9/5 rating
+                </span>
               </div>
             </div>
           </div>
 
           {/* Right Side - Enhanced Animation */}
-          <div className="flex justify-center animate-slide-in-right order-1 lg:order-2">
-            <EnhancedVoiceAnimation />
+          <div className="h-full flex flex-col items-center justify-center gap-14 animate-slide-in-right order-1 lg:order-2">
+            {/* Conditional rendering based on state */}
+            {isCallActive ? (
+              <VoiceCallAnimationCircle />
+            ) : (
+              <EnhancedVoiceAnimation />
+            )}
+
+            <button
+              onClick={handleToggleCall}
+              className="w-52 group bg-gradient-to-r from-indigo-600 to-indigo-500 text-white px-6 py-3 sm:px-8 sm:py-4 rounded-xl font-medium hover:from-indigo-700 hover:to-indigo-600 transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-2xl shadow-indigo-600/25 flex items-center justify-center"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="w-4 h-4 sm:w-5 sm:h-5 mr-2 group-hover:animate-pulse"
+              >
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+              </svg>
+              {isCallActive ? "End Call" : "Try Demo Call"}
+            </button>
           </div>
         </div>
       </section>
@@ -463,13 +396,16 @@ export default function LandingPage() {
               >
                 <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
               </svg>
-              <span className="text-xs sm:text-sm font-medium text-graphite">Why Choose Jarvis AI</span>
+              <span className="text-xs sm:text-sm font-medium text-graphite">
+                Why Choose Jarvis AI
+              </span>
             </div>
             <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold text-graphite mb-4 sm:mb-6">
               Transform Your Restaurant Operations
             </h2>
             <p className="text-base sm:text-lg md:text-xl text-graphite/70 max-w-3xl mx-auto">
-              Intelligent automation that works around the clock to grow your business
+              Intelligent automation that works around the clock to grow your
+              business
             </p>
           </div>
 
@@ -484,7 +420,9 @@ export default function LandingPage() {
                   <div className="flex justify-center group-hover:scale-110 transition-transform duration-300">
                     {feature.icon}
                   </div>
-                  <h3 className="text-lg sm:text-xl font-semibold text-graphite text-center">{feature.title}</h3>
+                  <h3 className="text-lg sm:text-xl font-semibold text-graphite text-center">
+                    {feature.title}
+                  </h3>
                   <p className="text-sm sm:text-base text-graphite/70 text-center leading-relaxed">
                     {feature.description}
                   </p>
@@ -507,57 +445,7 @@ export default function LandingPage() {
             </p>
           </div>
 
-          <div className="space-y-4 sm:space-y-6">
-            {comparisons.map((comparison, index) => (
-              <div
-                key={index}
-                className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100"
-              >
-                <div className="grid sm:grid-cols-2 gap-4 sm:gap-8 items-center">
-                  <div className="flex items-center space-x-3 sm:space-x-4 p-3 sm:p-4 bg-red-50 rounded-lg sm:rounded-xl border border-red-100">
-                    <div className="text-carmine bg-red-100 p-1.5 sm:p-2 rounded-full">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="w-4 h-4 sm:w-5 sm:h-5"
-                      >
-                        <path d="M18 6 6 18" />
-                        <path d="m6 6 12 12" />
-                      </svg>
-                    </div>
-                    <span className="text-sm sm:text-base text-graphite/80 font-medium">{comparison.traditional}</span>
-                  </div>
-                  <div className="flex items-center space-x-3 sm:space-x-4 p-3 sm:p-4 bg-emerald-50 rounded-lg sm:rounded-xl border border-emerald-100">
-                    <div className="text-emerald-500 bg-emerald-100 p-1.5 sm:p-2 rounded-full">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="w-4 h-4 sm:w-5 sm:h-5"
-                      >
-                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-                        <polyline points="22 4 12 14.01 9 11.01" />
-                      </svg>
-                    </div>
-                    <span className="text-sm sm:text-base text-graphite font-semibold">{comparison.jarvis}</span>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+          <ComparisonTable />
         </div>
       </section>
 
@@ -605,43 +493,7 @@ export default function LandingPage() {
               Hear from restaurant owners who transformed their business
             </p>
           </div>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-            {reviews.map((review, index) => (
-              <div
-                key={index}
-                className="group bg-white rounded-xl sm:rounded-2xl p-6 sm:p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105 border border-gray-100"
-              >
-                <div className="flex items-center space-x-1 mb-4 sm:mb-6">
-                  {[...Array(review.rating)].map((_, i) => (
-                    <svg
-                      key={i}
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                      className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-400"
-                    >
-                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                    </svg>
-                  ))}
-                </div>
-                <p className="text-sm sm:text-base md:text-lg text-graphite/80 mb-4 sm:mb-6 italic leading-relaxed">
-                  "{review.quote}"
-                </p>
-                <div className="flex items-center space-x-3 sm:space-x-4">
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-indigo-600 to-emerald-500 rounded-full flex items-center justify-center text-white text-xs sm:text-sm font-semibold">
-                    {review.avatar}
-                  </div>
-                  <div>
-                    <div className="font-semibold text-sm sm:text-base text-graphite">{review.name}</div>
-                    <div className="text-xs sm:text-sm text-graphite/60">{review.city}</div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+            <CustomerReview/> 
         </div>
       </section>
 
@@ -649,5 +501,5 @@ export default function LandingPage() {
       <EarlyAccessModal />
       <BookSetupModal />
     </div>
-  )
+  );
 }

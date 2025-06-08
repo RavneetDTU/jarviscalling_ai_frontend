@@ -37,7 +37,7 @@ export default function EarlyAccessModal() {
 
   return (
     <div className="fixed inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center z-50 p-2 sm:p-4 animate-fade-in-up">
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md max-h-[90vh] overflow-y-auto border border-indigo-100 relative">
+      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md max-h-[90vh] overflow-y-auto border border-indigo-100 relative no-scrollbar">
         {/* Gradient Border Effect */}
         <div className="absolute inset-0 bg-gradient-to-r from-indigo-600/20 to-emerald-500/20 rounded-2xl blur-xl -z-10" />
         <div className="p-4 sm:p-6 md:p-8 pb-6">
