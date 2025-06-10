@@ -380,12 +380,11 @@ export default function LandingPage() {
           <div className="h-full flex flex-col items-center justify-center gap-8 md:gap-14 animate-slide-in-right order-1 lg:order-2">
             {isLoading ? (
               <div className="relative w-16 h-16">
-              <div className="absolute inset-0 rounded-full border-t-4 border-indigo-600 animate-spin" />
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="h-3 w-3 bg-indigo-600 rounded-full animate-ping" />
+                <div className="absolute inset-0 rounded-full border-t-4 border-indigo-600 animate-spin" />
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="h-3 w-3 bg-indigo-600 rounded-full animate-ping" />
+                </div>
               </div>
-            </div>
-            
             ) : isCallActive ? (
               <VoiceCallAnimationCircle />
             ) : (
@@ -454,6 +453,12 @@ export default function LandingPage() {
                 )}
               </div>
             </div>
+
+            <div className="flex flex-col">
+                <p>Jarvis AI is ready to take your call! </p>
+                <p>📞 US: +1 503 748 3026 </p> 
+                <p>📞 South Africa: +27 87 250 2261</p>
+              </div>
           </div>
         </div>
       </section>
