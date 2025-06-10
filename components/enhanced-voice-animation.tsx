@@ -21,10 +21,10 @@ export default function EnhancedVoiceAnimation() {
       {/* Background Glow */}
       <div className="absolute inset-0 bg-gradient-to-r from-indigo-600/10 to-emerald-500/10 rounded-full blur-3xl animate-pulse-slow" />
 
-      <div className="relative flex flex-col md:flex-row items-center justify-center md:space-x-8 space-y-8 md:space-y-0">
+      <div className="relative flex flex-row items-center justify-center md:space-x-8 space-y-8 md:space-y-0">
         {/* Phone Side */}
-        <div className="flex flex-col items-center space-y-4 md:space-y-6 group">
-          <div className="relative">
+        <div className="h-full flex flex-col  items-center space-y-4 md:space-y-6 group">
+          <div className="relative mt-8 md:mt-0">
             <div
               className={`w-16 h-16 md:w-20 md:h-20 bg-gradient-to-r from-indigo-600 to-indigo-500 rounded-full flex items-center justify-center transition-all duration-700 shadow-2xl ${
                 isAnimating ? "animate-pulse scale-110 shadow-indigo-500/50" : "shadow-indigo-600/30"
