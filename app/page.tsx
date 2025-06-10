@@ -1,5 +1,7 @@
 "use client";
 
+const AGENT_ID = process.env.NEXT_PUBLIC_ELEVENLAB_AGENT_ID || "";
+
 import { useModalStore } from "@/lib/store";
 import { useRouter } from "next/navigation";
 import EnhancedVoiceAnimation from "@/components/enhanced-voice-animation";
@@ -12,6 +14,7 @@ import { ComparisonTable } from "@/components/comparision-table";
 import CustomerReview from "@/components/customer-review";
 
 import { useConversation } from "@elevenlabs/react";
+
 
 export default function LandingPage() {
   const { openEarlyAccess, openBookSetup } = useModalStore();
@@ -46,8 +49,13 @@ export default function LandingPage() {
       return;
     }
 
+    if (!AGENT_ID) {
+      setErrorMsg("Agent ID is not configured. Please check your environment variables.");
+      return;
+    }
+
     const conversationId = await conversation.startSession({
-      agentId: process.env.NEXT_PUBLIC_ELEVENLAB_AGENT_ID || "",
+      agentId: AGENT_ID,
     });
 
     if (conversationId) {
@@ -241,7 +249,7 @@ export default function LandingPage() {
 
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center px-4 py-12 md:py-16">
-        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-center relative z-10">
+        <div className="max-w-7xl flex flex-col-reverse md:flex-row gap-8 md:gap-12 lg:gap-16 items-center relative z-10">
           {/* Left Side - Content */}
           <div className="space-y-6 md:space-y-8 animate-fade-in-up order-2 lg:order-1">
             <div className="space-y-4 md:space-y-6">
@@ -365,17 +373,17 @@ export default function LandingPage() {
           </div>
 
           {/* Right Side - Enhanced Animation */}
-          <div className="h-full flex flex-col items-center justify-center gap-14 animate-slide-in-right order-1 lg:order-2">
+          <div className="h-full flex flex-col items-center justify-center gap-8 md:gap-14 animate-slide-in-right order-1 lg:order-2">
             {isCallActive ? (
               <VoiceCallAnimationCircle />
             ) : (
               <EnhancedVoiceAnimation />
             )}
 
-            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
+            <div className="w-fit flex gap-4 md:gap-6">
               <button
                 onClick={handleStartConversation}
-                className="w-52 group bg-gradient-to-r from-indigo-600 to-indigo-500 text-white px-6 py-3 sm:px-8 sm:py-4 rounded-xl font-medium hover:from-indigo-700 hover:to-indigo-600 transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-2xl shadow-indigo-600/25 flex items-center justify-center"
+                className="w-44 md:w-52 group bg-gradient-to-r from-indigo-600 to-indigo-500 text-white md:px-6 md:py-3 px-3 py-2 rounded-xl font-medium hover:from-indigo-700 hover:to-indigo-600 transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-2xl shadow-indigo-600/25 flex items-center justify-center"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -399,7 +407,7 @@ export default function LandingPage() {
                   onClick={handleNavigationToWhatsApp}
                   onMouseEnter={() => setShowTooltip(true)}
                   onMouseLeave={() => setShowTooltip(false)}
-                  className="w-52 group bg-gradient-to-r from-indigo-600 to-indigo-500 text-white px-6 py-3 sm:px-8 sm:py-4 rounded-xl font-medium hover:from-indigo-700 hover:to-indigo-600 transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-2xl shadow-indigo-600/25 flex items-center justify-center"
+                  className=" w-fit md:w-52 group bg-gradient-to-r from-indigo-600 to-indigo-500 text-white md:px-6 md:py-3 px-2 py-4 rounded-xl font-medium hover:from-indigo-700 hover:to-indigo-600 transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-2xl shadow-indigo-600/25 flex items-center justify-center"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
