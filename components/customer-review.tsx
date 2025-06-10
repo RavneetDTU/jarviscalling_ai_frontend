@@ -52,7 +52,7 @@ function CustomerReview() {
         slidesPerView={1.2}
         loop={true}
         autoplay={{
-          delay: 2500,
+          delay: 1500,
           disableOnInteraction: false,
         }}
         breakpoints={{

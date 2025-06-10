@@ -132,7 +132,7 @@ export const ComparisonTable = () => {
           {/* Desktop Table Rows */}
           <div className="block md:hidden space-y-4 ">
             {comparisionsMobile.map((comparison, index) => (
-              <div key={index} className="grid grid-cols-3 gap-2 items-center">
+              <div key={index} className="grid grid-cols-3 gap-2 items-center border-b border-gray-400 pb-2">
                 <div className="text-sm font-bold text-gray-800">{comparison.featureMobile}</div>
       
                 <div className="flex items-center space-x-3">
