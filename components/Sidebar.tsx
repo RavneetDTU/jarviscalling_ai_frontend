@@ -10,7 +10,7 @@ import {
 import { usePathname } from "next/navigation";
 
 const navItems = [
-  { label: "Dashboard", href: "/dashboard", icon: FiLayout },
+  { label: "Dashboard", href: "/", icon: FiLayout },
   { label: "Create Agent", href: "/agents", icon: FiPlusCircle },
   { label: "Billing", href: "/billings", icon: FiBook },
 ];
