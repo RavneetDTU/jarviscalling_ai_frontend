@@ -1,7 +1,13 @@
-import type { Config } from "tailwindcss"
+import type { Config } from "tailwindcss";
+
 const config: Config = {
   darkMode: ["class"],
-  content: ["app/**/*.{ts,tsx}", "components/**/*.{ts,tsx}", "*.{js,ts,jsx,tsx,mdx}"],
+  content: [
+    "./app/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "*.{js,ts,jsx,tsx,mdx}",
+  ],
   theme: {
     extend: {
       colors: {
@@ -38,7 +44,7 @@ const config: Config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        // Clarity Theme Colors
+        // Additional theme colors
         indigo: {
           50: "#eef2ff",
           100: "#e0e7ff",
@@ -77,6 +83,7 @@ const config: Config = {
           700: "#374151",
           800: "#1f2937",
           900: "#111827",
+          950: "#0a0a0a",
         },
         yellow: {
           400: "#fbbf24",
@@ -119,5 +126,6 @@ const config: Config = {
     },
   },
   plugins: [require("tailwindcss-animate")],
-}
-export default config
+};
+
+export default config;
