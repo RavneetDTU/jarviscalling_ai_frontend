@@ -12,7 +12,7 @@ import {
 } from "react-icons/fi";
 
 const allNavItems = [
-  { label: "Dashboard", href: "/dashboard", icon: FiLayout, group: "MAIN" },
+  { label: "Dashboard", href: "/", icon: FiLayout, group: "MAIN" },
   { label: "Create Agent", href: "/agents", icon: FiPlusCircle, group: "MAIN" },
   { label: "Billing", href: "/billings", icon: FiUsers, group: "MAIN" },
 ];
