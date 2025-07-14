@@ -7,14 +7,7 @@ function page() {
     <div className="flex flex-col min-h-screen">
       <AgentDashboardHeader />
 
-      <div className="flex flex-1">
-        <AgentDashboardSidebar />
-        {/* Main content area */}
-        <div className="container">
-          <AgentDashboard />
-        </div>
-      </div>
-      {/* Footer can be added here if needed */}
+      <AgentDashboard />
     </div>
   );
 }
