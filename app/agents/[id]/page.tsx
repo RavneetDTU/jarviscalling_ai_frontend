@@ -21,20 +21,14 @@ import { LanguageSettings } from "@/components/Agents/AgentsSetting/LanguageSett
 import { AdditionalLanguages } from "@/components/Agents/AgentsSetting/AdditionalLanguage";
 import { FirstMessageSettings } from "@/components/Agents/AgentsSetting/FirstMessafeSetting";
 import { SystemPromptSettings } from "@/components/Agents/AgentsSetting/SystemPromptSettings";
-import VoiceTab from "@/components/Agents/AgentsSetting/VoiceTab";
-import AnalysisTab from "@/components/Agents/AgentsSetting/AnalysisTab";
-import SecurityTab from "@/components/Agents/AgentsSetting/SecurityTab";
 import AdvancedTab from "@/components/Agents/AgentsSetting/AdvancedTab";
-import WidgetTab from "@/components/Agents/AgentsSetting/WidgetTab";
 import { Card } from "@/components/ui/card";
-import { Agent } from "http";
 import { AgentDashboardHeader } from "@/components/Header";
 import { AgentDashboardSidebar } from "@/components/Sidebar";
 
-const TABS = ["Agent", "Voice", "Analysis", "Security", "Advanced", "Widget"];
+const TABS = ["Agent", "Advanced"];
 
 export default function AgentSettingsPage() {
-  const router = useRouter();
   const { id: agentId } = useParams();
 
   const [agentSettings, setAgentSettings] = useState<AgentSettings | null>(
@@ -105,15 +99,8 @@ export default function AgentSettingsPage() {
           </div>
         );
       case 1:
-        return <VoiceTab />;
-      case 2:
-        return <AnalysisTab />;
-      case 3:
-        return <SecurityTab />;
-      case 4:
         return <AdvancedTab />;
-      case 5:
-        return <WidgetTab />;
+
       default:
         return null;
     }
