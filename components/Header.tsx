@@ -45,13 +45,12 @@ export const AgentDashboardHeader = () => {
     router.push("/login");
   };
 
-
   const user = auth.currentUser;
-    useEffect(() => {
-        if (user) {
-        setUserName(user.displayName || user.email || "User");
-        }
-    }, [user]);
+  useEffect(() => {
+    if (user) {
+      setUserName(user.displayName || user.email || "User");
+    }
+  }, [user]);
 
   return (
     <header className="w-full flex justify-between items-center px-4 py-3 md:px-6 md:py-4 border-b sticky top-0 z-10 bg-gradient-to-r from-indigo-50 to-blue-50 backdrop-blur-md shadow-sm">
