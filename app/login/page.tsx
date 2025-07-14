@@ -19,7 +19,7 @@ export default function Login() {
     e.preventDefault();
     try {
       await login(email, password);
-      router.push("/dashboard");
+      router.push("/agents");
     } catch (err: unknown) {
       if (err instanceof Error) {
         setError(err.message);
