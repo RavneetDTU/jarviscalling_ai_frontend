@@ -1,9 +1,12 @@
 import React from "react";
-function AdvancedTab() {
+
+interface AdvancedTabProps {
+  agentId: string;
+}
+function AdvancedTab({ agentId }: AdvancedTabProps) {
   return (
     <div>
-
-      <h2>Advanced Settings</h2>
+      <h2>Advanced Settings {agentId}</h2>
       <p>Currently in Development.</p>
 
     </div>

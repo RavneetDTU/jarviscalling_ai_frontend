@@ -175,21 +175,50 @@ export default function CreateAgent() {
     }
   };
 
-  const handleCreateAgent = () => {
-    console.log('Creating agent:', {
-      agentType,
-      purpose: purpose === 'other-purpose' ? customPurpose : purpose,
-      industry: industry === 'other-industry' ? customIndustry : industry,
-      agentName
-    });
-    // Here you would typically call an API to create the agent
-    setToast({
-      message: 'Agent created successfully!',
-      type: 'success'
-    });
+  const handleCreateAgent = async () => {
+    const agentPayload = {
+      name: agentName,
+      tags: [],
+      platform_settings: {},
+      conversation_config: {
+        agent: {
+          first_message: 'Hi! I\'m your new assistant. How can I help you today?',
+          prompt: {
+            messages: [
+              {
+                role: 'system',
+                content: 'You are a helpful and concise AI assistant.'
+              }
+            ]
+          },
+          language: 'en',
+          dynamic_variables: {}
+        }
+      }
+    };
 
-    Router.push('/agents/121213'); // Redirect to the agent settings page
 
+    try {
+      const response = await fetch('https://api.elevenlabs.io/v1/convai/agents/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'xi-api-key': process.env.NEXT_PUBLIC_ELEVENLAB_API_KEY || ''
+        },
+        body: JSON.stringify(agentPayload)
+      });
+
+      if (!response.ok) throw new Error('Failed to create agent');
+
+      const data = await response.json();
+      const agentId = data.agent_id;
+
+      setToast({ message: 'Agent created successfully!', type: 'success' });
+      Router.push(`/agents/${agentId}`);
+    } catch (error) {
+      console.error('Error creating agent:', error);
+      setToast({ message: 'Failed to create agent', type: 'error' });
+    }
   };
 
   const goBack = () => {
